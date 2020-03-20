@@ -1,1 +1,0 @@
-# GithubTemplates2nix
