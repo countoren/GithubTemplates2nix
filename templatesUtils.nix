@@ -1,7 +1,4 @@
-{
-  nixpkgs ? import <nixpkgs>{}
-}:
-with nixpkgs;
+with import <nixpkgs>{};
 rec {
   tarUrlToDrv = { name, url, meta ? {}}  : repoToDrv { inherit name meta; repo =(fetchTarball url);};
 

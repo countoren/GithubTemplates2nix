@@ -12,7 +12,7 @@ buildEnv {
       ${gitCmd} branch ${templatePrefix}$templateName && ${gitCmd} checkout ${templatePrefix}$templateName
     '')
     ( writeShellScriptBin "template-init" ''
-      cp ${./basic-template.nix} ./template.nix
+      cp ${./basic-template.nix} template.nix
     '')
 
   ];
