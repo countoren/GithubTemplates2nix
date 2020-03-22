@@ -2,11 +2,13 @@
 , templatePrefix ? "template-"
 , githubUser     ? "countoren"
 , githubToken    ? ""
+, templatesFile  ? "./templates.nix"
 }:
 with nixpkgs;
 let gitCmd = "${git}/bin/git";
+    ght2nix = import ./githubTemplates2Nix.nix { inherit nixpkgs githubUser githubToken templatePrefix;};
 in
-buildEnv {
+buildEnv { 
   name = "templatesEnv";
   paths = [
     ( writeShellScriptBin "create-template-branch" ''
@@ -17,7 +19,11 @@ buildEnv {
       cp ${./.}/basic-template.nix template.nix
     '')
 
-    (import ./githubTemplates2Nix.nix { inherit nixpkgs githubUser githubToken templatePrefix;})
 
+    ght2nix
+
+    ( writeShellScriptBin "update-templates" ''
+      ${ght2nix}/bin/ght2nix > ${templatesFile}
+    '')
   ];
 }
