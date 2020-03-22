@@ -12,7 +12,7 @@ buildEnv {
   name = "templatesEnv";
   paths = [
     ( writeShellScriptBin "create-template-branch" ''
-      read -p "template name: " $templateName
+      read -p "template name: " templateName
       ${gitCmd} branch ${templatePrefix}$templateName && ${gitCmd} checkout ${templatePrefix}$templateName
     '')
     ( writeShellScriptBin "template-init" ''

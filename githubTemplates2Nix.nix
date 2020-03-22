@@ -7,6 +7,8 @@
 , jq   ? nixpkgs.jq
 }:
 let 
+  #TODO: synthesize githubUser, templateName
+  #TODO: use git ls-remote for getting branches instead of git api
   curlCmd = ''${curl}/bin/curl ${(if githubToken != "" then "-u \"${githubUser}:${githubToken}\"" else "")}'';
   jqCmd = ''${jq}/bin/jq'';
   ght2nix-repo = nixpkgs.writeShellScript "ght2nix-repo" ''
@@ -34,6 +36,6 @@ in nixpkgs.writeShellScriptBin "ght2nix" ''
     echo 'let tarUrlToDrv = (import ${./.}/templatesUtils.nix).tarUrlToDrv;'
     echo 'in'
     echo '{'
-      ${curlCmd} "https://api.github.com/users/${githubUser}/repos" | jq -r ".[] .name" | ${ght2nix-repo}
+      ${curlCmd} "https://api.github.com/users/${githubUser}/repos" | ${jqCmd} -r ".[] .name" | ${ght2nix-repo}
     echo '}'
   ''
