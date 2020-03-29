@@ -19,7 +19,6 @@ buildEnv {
       cp ${./.}/basic-template.nix template.nix
     '')
 
-
     ght2nix
 
     ( writeShellScriptBin "update-templates" ''
